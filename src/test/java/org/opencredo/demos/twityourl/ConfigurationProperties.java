@@ -23,7 +23,7 @@ import java.util.Properties;
  * @author Erich Eichinger
  * 
  */
-public class TestProperties {
+public class ConfigurationProperties {
     public static final String TWITTER_SCREENNAME = "twitter.screenName";
 
     public static final String TWITTER_PASSWORD = "twitter.password";
