@@ -1,0 +1,53 @@
+<beans:beans xmlns="http://www.springframework.org/schema/integration"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:jms="http://www.springframework.org/schema/integration/jms"
+	xmlns:amq="http://www.opencredo.com/schema/si/amq" xmlns:si-xml="http://www.springframework.org/schema/integration/xml"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/integration
+           http://www.springframework.org/schema/integration/spring-integration-1.0.xsd
+           http://www.springframework.org/schema/integration/xml
+           http://www.springframework.org/schema/integration/xml/spring-integration-xml-1.0.xsd
+           http://www.opencredo.com/schema/si/amq
+		   http://www.opencredo.com/schema/si/amq/opencredo-si-amq.xsd">
+
+	<!-- AMQ config -->
+	<beans:bean id="amqTemplate" class="org.opencredo.amq.rabbitmq.RabbitMqTemplate">
+		<beans:constructor-arg>
+            <beans:bean class="org.opencredo.amq.rabbitmq.DefaultChannelFactory">
+                <beans:constructor-arg>
+                    <beans:bean class="org.opencredo.amq.rabbitmq.SingleConnectionConnectionFactory">
+                        <beans:constructor-arg value="localhost" />
+                    </beans:bean>
+                </beans:constructor-arg>
+            </beans:bean>
+		</beans:constructor-arg>
+        <beans:property name="messageConverter">
+            <beans:bean class="org.opencredo.amq.rabbitmq.SerializationMessageConverter" />
+        </beans:property>
+	</beans:bean>
+
+    <amq:outbound-channel-adapter
+            default-routing-key="amq-statusText-1"
+            template="amqTemplate"
+            channel="statusTextOut1"/>
+    <amq:outbound-channel-adapter
+            default-routing-key="amq-statusText-2"
+            template="amqTemplate"
+            channel="statusTextOut2"/>
+    <amq:outbound-channel-adapter
+            default-routing-key="amq-statusText-3"
+            template="amqTemplate"
+            channel="statusTextOut3"/>
+    
+    <!-- the chain for retrieving a statusText from AMQ and split it into words -->
+    <amq:inbound-channel-adapter queue-name="amq-statusText-1"
+                                 template="amqTemplate"
+                                 channel="map-statusText-1"/>
+    <amq:inbound-channel-adapter queue-name="amq-statusText-2"
+                                 template="amqTemplate"
+                                 channel="map-statusText-2"/>
+    <amq:inbound-channel-adapter queue-name="amq-statusText-3"
+                                 template="amqTemplate"
+                                 channel="map-statusText-3"/>
+</beans:beans>

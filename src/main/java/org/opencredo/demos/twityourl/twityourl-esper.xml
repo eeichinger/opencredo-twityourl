@@ -1,0 +1,78 @@
+<beans:beans xmlns="http://www.springframework.org/schema/integration"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:amq="http://www.opencredo.com/schema/si/amq"
+             xmlns:si-xml="http://www.springframework.org/schema/integration/xml"
+             xmlns:si-stream="http://www.springframework.org/schema/integration/stream"
+             xmlns:esper="http://www.opencredo.com/schema/esper"
+             xmlns:si-esper="http://www.opencredo.com/schema/esper/integration"
+             xmlns:si="http://www.springframework.org/schema/integration"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/integration
+           http://www.springframework.org/schema/integration/spring-integration-1.0.xsd
+           http://www.springframework.org/schema/integration/xml
+           http://www.springframework.org/schema/integration/xml/spring-integration-xml-1.0.xsd
+           http://www.springframework.org/schema/integration/stream
+           http://www.springframework.org/schema/integration/stream/spring-integration-stream-1.0.xsd
+           http://www.opencredo.com/schema/si/amq
+		   http://www.opencredo.com/schema/si/amq/opencredo-si-amq.xsd
+		   http://www.opencredo.com/schema/esper
+		   http://www.opencredo.com/schema/esper/opencredo-esper-1.0.xsd
+		   http://www.opencredo.com/schema/esper/integration
+		   http://www.opencredo.com/schema/esper/integration/opencredo-integration-esper-1.0.xsd
+		   ">
+
+    <filter input-channel="word"
+            method="isMatch"
+            output-channel="matchingWord">
+        <beans:bean class="org.opencredo.demos.twityourl.TextFilter">
+            <beans:constructor-arg value="#.*" />
+        </beans:bean>
+    </filter>
+
+    <channel id="matchingWord"/>
+
+    <transformer input-channel="matchingWord" output-channel="matchingWordEvent">
+        <beans:bean class="org.opencredo.demos.twityourl.StringEnvelopeWrapper"/>
+    </transformer>
+
+    <channel id="matchingWordEvent"/>
+
+    <outbound-channel-adapter channel="matchingWordEvent" ref="esperTemplate" method="sendEvent"/>
+
+    <esper:template id="esperTemplate" configuration="esper-configuration.xml">
+        <esper:statements>
+            <esper:statement
+                    epl="select text, count(*) as total from org.opencredo.demos.twityourl.StringEnvelopeWrapper.win:time(10 seconds) group by text">
+                <esper:listeners>
+                    <!-- Pass Esper messages to the throughputGateway -->
+                    <esper:ref bean="matchingWordStatisticsGateway"/>
+                </esper:listeners>
+            </esper:statement>
+        </esper:statements>
+    </esper:template>
+
+    <si-esper:inbound-channel-adapter id="matchingWordStatisticsGateway"
+                                      channel="rawMatchingWordStatisticsEsperEvents"/>
+
+    <channel id="rawMatchingWordStatisticsEsperEvents"/>
+
+    <splitter input-channel="rawMatchingWordStatisticsEsperEvents"
+              output-channel="rawMatchingWordStatisticsEsperEvent">
+        <beans:bean class="org.opencredo.util.si.ArrayElementSplitter"/>
+    </splitter>
+
+    <channel id="rawMatchingWordStatisticsEsperEvent"/>
+
+    <transformer input-channel="rawMatchingWordStatisticEsperEvent"
+                 method="convert"
+                 output-channel="matchingWordStatistics">
+        <beans:bean class="org.opencredo.demos.twityourl.EsperEventTwitterTextStatisticsConverter"/>
+    </transformer>
+
+    <channel id="matchingWordStatistics"/>
+
+    <logging-channel-adapter id="logger" channel="matchingWordStatistics" level="INFO"/>
+    
+</beans:beans>

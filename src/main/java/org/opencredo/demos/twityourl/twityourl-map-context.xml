@@ -1,0 +1,52 @@
+<beans:beans xmlns="http://www.springframework.org/schema/integration"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:amq="http://www.opencredo.com/schema/si/amq"
+             xmlns:si-xml="http://www.springframework.org/schema/integration/xml"
+             xmlns:si-stream="http://www.springframework.org/schema/integration/stream"
+             xmlns:esper="http://www.opencredo.com/schema/esper"
+             xmlns:si-esper="http://www.opencredo.com/schema/esper/integration"
+             xmlns:si="http://www.springframework.org/schema/integration"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/integration
+           http://www.springframework.org/schema/integration/spring-integration-1.0.xsd
+           http://www.springframework.org/schema/integration/xml
+           http://www.springframework.org/schema/integration/xml/spring-integration-xml-1.0.xsd
+           http://www.springframework.org/schema/integration/stream
+           http://www.springframework.org/schema/integration/stream/spring-integration-stream-1.0.xsd
+           http://www.opencredo.com/schema/si/amq
+		   http://www.opencredo.com/schema/si/amq/opencredo-si-amq.xsd
+		   http://www.opencredo.com/schema/esper
+		   http://www.opencredo.com/schema/esper/opencredo-esper-1.0.xsd
+		   http://www.opencredo.com/schema/esper/integration
+		   http://www.opencredo.com/schema/esper/integration/opencredo-integration-esper-1.0.xsd
+		   ">
+
+    <channel id="map-statusText-1"/>
+    <splitter input-channel="map-statusText-1"
+              method="splitWords"
+              output-channel="word">
+        <beans:bean class="org.opencredo.demos.twityourl.WordMap"/>
+    </splitter>
+
+    <channel id="map-statusText-2"/>
+    <splitter input-channel="map-statusText-2"
+              method="splitWords"
+              output-channel="word">
+        <beans:bean class="org.opencredo.demos.twityourl.WordMap"/>
+    </splitter>
+
+    <channel id="map-statusText-3"/>
+    <splitter input-channel="map-statusText-3"
+              method="splitWords"
+              output-channel="word">
+        <beans:bean class="org.opencredo.demos.twityourl.WordMap"/>
+    </splitter>
+
+    <channel id="word"/>
+
+    <!-- a NoOp endpoint - we just need the TwitterUrls for analysis in esper -->
+    <outbound-channel-adapter channel="word" ref="nullWriter" method="writeMessage"/>
+
+</beans:beans>
