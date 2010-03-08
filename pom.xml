@@ -7,6 +7,9 @@
     <groupId>org.opencredo.demos</groupId>
     <artifactId>twityourl</artifactId>
     <version>1.0</version>
+    <name>OpenCredo TwitYoUrl</name>
+    <description>OpenCredo Spring Integration, AMQ and Esper demo application</description>
+    <url>http://www.opencredo.com</url>
 
     <properties>
         <twitter.screenName>testscreenname</twitter.screenName>
@@ -35,6 +38,16 @@
                 <filtering>true</filtering>
             </testResource>
         </testResources>        
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
     
     <dependencies>

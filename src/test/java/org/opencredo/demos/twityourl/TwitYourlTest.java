@@ -29,10 +29,10 @@ import java.util.ArrayList;
 public class TwitYourlTest {
 
     @Test
-    public void run() throws IOException, TwitterException {
+    public void run() throws IOException, TwitterException, InterruptedException {
         
         ArrayList<String> args = new ArrayList<String>();
-        args.add(String.format("%s:%s", TestProperties.getTwitterScreenName(), TestProperties.getTwitterPassword()));
+        args.add(String.format("%s:%s", ConfigurationProperties.getTwitterScreenName(), ConfigurationProperties.getTwitterPassword()));
 //        args.add("-f");
 //        args.add("octestaccount");
 //        args.add("-t");

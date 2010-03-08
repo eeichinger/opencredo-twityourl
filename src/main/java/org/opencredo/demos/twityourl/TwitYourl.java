@@ -16,6 +16,7 @@ package org.opencredo.demos.twityourl;
 
 import org.opencredo.twitter.si.FilterTwitterStreamConfiguration;
 import org.opencredo.twitter.si.TwitterCredentials;
+import org.opencredo.twitter.si.TwitterStreamConfiguration;
 import org.opencredo.twitter.si.TwitterStreamInboundChannelAdapter;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import twitter4j.TwitterException;
@@ -37,23 +38,24 @@ public class TwitYourl {
             "twityourl-streamreader-context.xml",
             // alternatively use  "twityourl-connect-amq.xml" below
             // for connecting WordMap processors using RabbitMQ
+//            "twityourl-connect-amq.xml",
             "twityourl-connect-direct.xml",
             "twityourl-map-context.xml",
             "twityourl-esper.xml"
     };
 
-    public static void main(String[] args) throws IOException, TwitterException {
+    public static void main(String[] args) throws IOException, TwitterException, InterruptedException {
 
+        TwitterStreamConfiguration config = parseCommandLine(args);
+        
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(configFiles, TwitYourl.class);
         TwitterStreamInboundChannelAdapter twitterFeed = (TwitterStreamInboundChannelAdapter) context.getBean("twitterStreamFeed");
-
-        FilterTwitterStreamConfiguration config = parseCommandLine(args);
         twitterFeed.setTwitterStreamConfiguration(config);
 
-        System.in.read();
+        Thread.sleep(10000);
     }
 
-    private static FilterTwitterStreamConfiguration parseCommandLine(String[] args) {
+    private static TwitterStreamConfiguration parseCommandLine(String[] args) {
 
         try {
             Collection<String> followIds = null;
@@ -75,12 +77,20 @@ public class TwitYourl {
                 }
             }
 
-            return new FilterTwitterStreamConfiguration(
-                    new TwitterCredentials(credentials[0], credentials[1]),
-                    followIds.toArray(new String[followIds.size()]),
-                    trackKeywords.toArray(new String[trackKeywords.size()]),
-                    0
-            );
+            if (followIds != null)
+            {
+                return new FilterTwitterStreamConfiguration(
+                        new TwitterCredentials(credentials[0], credentials[1]),
+                        followIds.toArray(new String[followIds.size()]),
+                        (trackKeywords==null)
+                                ?null
+                                :trackKeywords.toArray(new String[trackKeywords.size()]),
+                        0
+                );                
+            }
+            else {
+                return new TwitterStreamConfiguration( new TwitterCredentials(credentials[0], credentials[1])  );
+            }
 
         } catch (Exception e) {
             System.err.println(

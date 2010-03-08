@@ -25,11 +25,11 @@ import org.springframework.integration.annotation.Transformer;
  */
 public class EsperEventTwitterTextStatisticsConverter {
 
-    private String urlKey = "url";
+    private String textKey = "text";
     private String totalKey = "total";
 
-    public void setUrlKey(String urlKey) {
-        this.urlKey = urlKey;
+    public void setTextKey(String textKey) {
+        this.textKey = textKey;
     }
 
     public void setTotalKey(String totalKey) {
@@ -38,6 +38,6 @@ public class EsperEventTwitterTextStatisticsConverter {
 
     @Transformer
     public TextStatistics convert( EventBean eventBean ) {
-        return new TextStatistics( (String)eventBean.get(urlKey), (Long)eventBean.get(totalKey) ) ;
+        return new TextStatistics( (String)eventBean.get(textKey), (Long)eventBean.get(totalKey) ) ;
     }
 }

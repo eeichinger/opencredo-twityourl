@@ -44,7 +44,7 @@
     <esper:template id="esperTemplate" configuration="esper-configuration.xml">
         <esper:statements>
             <esper:statement
-                    epl="select text, count(*) as total from org.opencredo.demos.twityourl.StringEnvelopeWrapper.win:time(10 seconds) group by text">
+                    epl="select text, count(*) as total from org.opencredo.demos.twityourl.StringEnvelope.win:time(10 seconds) group by text">
                 <esper:listeners>
                     <!-- Pass Esper messages to the throughputGateway -->
                     <esper:ref bean="matchingWordStatisticsGateway"/>
@@ -65,7 +65,7 @@
 
     <channel id="rawMatchingWordStatisticsEsperEvent"/>
 
-    <transformer input-channel="rawMatchingWordStatisticEsperEvent"
+    <transformer input-channel="rawMatchingWordStatisticsEsperEvent"
                  method="convert"
                  output-channel="matchingWordStatistics">
         <beans:bean class="org.opencredo.demos.twityourl.EsperEventTwitterTextStatisticsConverter"/>
