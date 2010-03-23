@@ -35,7 +35,7 @@ public class TwitYourl {
 
     private final static String[] configFiles = {
             "twityourl-common.xml",
-            "twityourl-streamreader-context.xml",
+            "twityourl-twitterstreamreader-context.xml",
             // alternatively use  "twityourl-connect-amq.xml" below
             // for connecting WordMap processors using RabbitMQ
 //            "twityourl-connect-amq.xml",
