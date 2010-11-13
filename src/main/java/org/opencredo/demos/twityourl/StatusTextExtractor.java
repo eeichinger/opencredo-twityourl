@@ -14,10 +14,8 @@
  */
 package org.opencredo.demos.twityourl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.integration.annotation.Transformer;
 import org.springframework.integration.core.Message;
+import org.springframework.integration.annotation.Transformer;
 import twitter4j.Status;
 
 /**

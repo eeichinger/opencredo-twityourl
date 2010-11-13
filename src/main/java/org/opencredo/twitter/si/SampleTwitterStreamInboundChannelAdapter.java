@@ -14,7 +14,6 @@
  */
 package org.opencredo.twitter.si;
 
-import org.springframework.integration.channel.MessageChannelTemplate;
 import org.springframework.integration.core.MessageChannel;
 import twitter4j.TwitterException;
 import twitter4j.TwitterStream;

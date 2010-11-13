@@ -16,12 +16,16 @@ package org.opencredo.twitter.si;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.integration.channel.MessageChannelTemplate;
 import org.springframework.integration.core.MessageChannel;
 import org.springframework.integration.message.MessageBuilder;
 import org.springframework.util.Assert;
-import twitter4j.*;
+import twitter4j.Status;
+import twitter4j.StatusDeletionNotice;
+import twitter4j.StatusListener;
+import twitter4j.TwitterException;
+import twitter4j.TwitterStream;
+import twitter4j.TwitterStreamFactory;
 
 /**
  * TODO
@@ -54,7 +58,7 @@ public abstract class TwitterStreamInboundChannelAdapter implements StatusListen
     public TwitterStreamInboundChannelAdapter(MessageChannel statusChannel) {
         this.statusMessageChannelTemplate = new MessageChannelTemplate(statusChannel);
     }
-    
+
     public TwitterStreamInboundChannelAdapter(String screenName, String password, MessageChannel statusChannel) throws TwitterException {
         this(screenName, password, new MessageChannelTemplate(statusChannel));
     }
@@ -72,7 +76,7 @@ public abstract class TwitterStreamInboundChannelAdapter implements StatusListen
         TwitterCredentials credentials = twitterStreamConfiguration.getCredentials();
         logger.info(String.format("opening twitter stream using credentials %s:%s", credentials.getScreenName(), credentials.getPassword()));
         TwitterStream ts = getTwitterStreamFactory()
-                .getInstance(credentials.getScreenName(), credentials.getPassword());        
+                .getInstance(credentials.getScreenName(), credentials.getPassword());
         return ts;
     }
 

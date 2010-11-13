@@ -15,8 +15,6 @@
 package org.opencredo.util.si;
 
 import org.springframework.integration.core.Message;
-import org.springframework.integration.message.MessageDeliveryException;
-import org.springframework.integration.message.MessageHandlingException;
 
 /**
  * TODO

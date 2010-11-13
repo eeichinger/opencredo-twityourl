@@ -2,16 +2,15 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns:beans="http://www.springframework.org/schema/beans"
              xmlns:jms="http://www.springframework.org/schema/integration/jms"
-             xmlns:amq="http://www.opencredo.com/schema/si/amq"
              xmlns:si-xml="http://www.springframework.org/schema/integration/xml"
              xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/beans/spring-beans.xsd
            http://www.springframework.org/schema/integration
-           http://www.springframework.org/schema/integration/spring-integration-1.0.xsd
+           http://www.springframework.org/schema/integration/spring-integration.xsd
            http://www.springframework.org/schema/integration/xml
-           http://www.springframework.org/schema/integration/xml/spring-integration-xml-1.0.xsd
-           http://www.opencredo.com/schema/si/amq
-		   http://www.opencredo.com/schema/si/amq/opencredo-si-amq.xsd">
+           http://www.springframework.org/schema/integration/xml/spring-integration-xml-2.0.xsd
+           http://www.springframework.org/schema/integration/jms
+           http://www.springframework.org/schema/integration/jms/spring-integration-jms-2.0.xsd">
 
     <poller id="defaultPoller" default="true" max-messages-per-poll="5">
         <interval-trigger interval="3" time-unit="SECONDS"/>

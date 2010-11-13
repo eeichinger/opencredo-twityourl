@@ -1,7 +1,6 @@
 <beans:beans xmlns="http://www.springframework.org/schema/integration"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns:beans="http://www.springframework.org/schema/beans"
-             xmlns:amq="http://www.opencredo.com/schema/si/amq"
              xmlns:si-xml="http://www.springframework.org/schema/integration/xml"
              xmlns:si-stream="http://www.springframework.org/schema/integration/stream"
              xmlns:esper="http://www.opencredo.com/schema/esper"
@@ -12,15 +11,13 @@
            http://www.springframework.org/schema/integration
            http://www.springframework.org/schema/integration/spring-integration-1.0.xsd
            http://www.springframework.org/schema/integration/xml
-           http://www.springframework.org/schema/integration/xml/spring-integration-xml-1.0.xsd
+           http://www.springframework.org/schema/integration/xml/spring-integration-xml-2.0.xsd
            http://www.springframework.org/schema/integration/stream
            http://www.springframework.org/schema/integration/stream/spring-integration-stream-1.0.xsd
-           http://www.opencredo.com/schema/si/amq
-		   http://www.opencredo.com/schema/si/amq/opencredo-si-amq.xsd
 		   http://www.opencredo.com/schema/esper
-		   http://www.opencredo.com/schema/esper/opencredo-esper-1.0.xsd
+		   http://www.opencredo.com/schema/esper/opencredo-esper-2.0.xsd
 		   http://www.opencredo.com/schema/esper/integration
-		   http://www.opencredo.com/schema/esper/integration/opencredo-integration-esper-1.0.xsd
+		   http://www.opencredo.com/schema/esper/integration/opencredo-integration-esper-2.0.xsd
 		   ">
 
     <filter input-channel="word"
@@ -74,5 +71,5 @@
     <channel id="matchingWordStatistics"/>
 
     <logging-channel-adapter id="logger" channel="matchingWordStatistics" level="INFO"/>
-    
+
 </beans:beans>

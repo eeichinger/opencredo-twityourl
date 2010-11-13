@@ -29,7 +29,7 @@ public class RoundRobinLoadBalancingRouter {
     private final MessageChannel[] channels;
 
     private volatile int ixLastChannel;
-    
+
     public RoundRobinLoadBalancingRouter(MessageChannel[] channels) {
         Assert.noNullElements(channels);
         Assert.isTrue(channels.length>0);

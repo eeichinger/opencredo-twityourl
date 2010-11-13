@@ -14,13 +14,13 @@
     <properties>
         <twitter.screenName>testscreenname</twitter.screenName>
         <twitter.password>testpassword</twitter.password>
-        
+
         <typicaVersion>1.6</typicaVersion>
         <junitVersion>4.8.1</junitVersion>
         <commonsLoggingVersion>1.1.1</commonsLoggingVersion>
         <commonsIOVersion>1.4</commonsIOVersion>
         <springVersion>2.5.6.SEC01</springVersion>
-        <springIntegrationVersion>1.0.3.RELEASE</springIntegrationVersion>
+        <springIntegrationVersion>1.0.4.RELEASE</springIntegrationVersion>
         <jets3tVersion>0.7.2</jets3tVersion>
         <springWsVersion>1.5.8</springWsVersion>
     </properties>
@@ -37,7 +37,7 @@
                 <directory>src/test/resources</directory>
                 <filtering>true</filtering>
             </testResource>
-        </testResources>        
+        </testResources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -49,7 +49,7 @@
             </plugin>
         </plugins>
     </build>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -119,8 +119,30 @@
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring</artifactId>
+            <artifactId>spring-core</artifactId>
             <version>${springVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${springVersion}</version>
+        </dependency>
+        <!--
+                <dependency>
+                    <groupId>org.opencredo.amq</groupId>
+                    <artifactId>amq-template</artifactId>
+                    <version>1.0</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.opencredo.amq</groupId>
+                    <artifactId>amq-spring-integration-support</artifactId>
+                    <version>1.0</version>
+                </dependency>
+        -->
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-core</artifactId>
+            <version>${springIntegrationVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.integration</groupId>
@@ -129,47 +151,46 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-stream</artifactId>
+            <version>${springIntegrationVersion}</version>
+        </dependency>
+<!--
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
             <artifactId>spring-integration-adapter</artifactId>
             <version>${springIntegrationVersion}</version>
-        </dependency>        
-        <dependency>
-            <groupId>org.opencredo.amq</groupId>
-            <artifactId>amq-template</artifactId>
-            <version>1.0</version>
         </dependency>
+-->
         <dependency>
-            <groupId>org.opencredo.amq</groupId>
-            <artifactId>amq-spring-integration-support</artifactId>
-            <version>1.0</version>
+            <groupId>org.twitter4j</groupId>
+            <artifactId>twitter4j-core</artifactId>
+            <version>[2.1,)</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.integration</groupId>
-            <artifactId>spring-integration-core</artifactId>
-            <version>1.0.3.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.integration</groupId>
-            <artifactId>spring-integration-stream</artifactId>
-            <version>1.0.3.RELEASE</version>
-        </dependency>
-        <dependency>
-           <groupId>org.twitter4j</groupId>
-           <artifactId>twitter4j-core</artifactId>
-           <version>[2.1,)</version>
-        </dependency>
-        
+
         <!-- OpenCredo Esper Dependencies -->
         <dependency>
             <groupId>org.opencredo.esper</groupId>
             <artifactId>esper-template</artifactId>
-            <version>2.0-SNAPSHOT</version>
+            <version>2.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- OpenCredo Esper Spring Integration Dependencies -->
         <dependency>
             <groupId>org.opencredo.esper</groupId>
             <artifactId>esper-si-support</artifactId>
-            <version>2.0-SNAPSHOT</version>
+            <version>2.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
